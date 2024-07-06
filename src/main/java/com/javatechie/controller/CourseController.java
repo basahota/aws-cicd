@@ -58,8 +58,5 @@ public class CourseController {
     }
 
 
-    @GetMapping("/welcome")
-    public String welcome(){
-        return "hello team , congratulation !!";
-    }
+   
 }
