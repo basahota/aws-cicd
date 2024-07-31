@@ -1,8 +1,11 @@
+
+
 version: 0.2
 
 phases:
   pre_build:
     commands:
+      - echo Installing Maven dependencies...
       - mvn clean install
       - echo Logging in to Amazon ECR...
       - aws --version
@@ -23,17 +26,13 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"course-service","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-      - echo Writing image definitions file...
-      # add your container name
       - DOCKER_CONTAINER_NAME=aws-project
       - printf '[{"name":"%s","imageUri":"%s"}]' $DOCKER_CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - echo $DOCKER_CONTAINER_NAME
-      - echo printing imagedefinitions.json
+      - echo Printing imagedefinitions.json
       - cat imagedefinitions.json
 
 artifacts:
   files:
     - imagedefinitions.json
     - target/course-service.jar
-
